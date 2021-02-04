@@ -66,6 +66,8 @@ class Rename:
                 if file_ext in self.settings['file_ext']:
                     files.append(os.path.join(root, file))
 
+        del dirnames
+
         return files
 
     def rename_files(self, files):
