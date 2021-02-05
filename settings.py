@@ -17,7 +17,20 @@ class SettingsfromJSON:
             return data
 
         except FileNotFoundError:
-            print('No json file found.')
+            json_settings = open(self.json_path, 'w')
+            json_settings.close()
+
+            data = {"working_path": "",
+            "safe_string": "DOC", 
+            "file_ext": [".pdf", ".odt", ".odg", ".odp", ".jpg"], 
+            "date_string": True, 
+            "old_filename": True, 
+            "spaceletter": "_", 
+            "replace_letters": [{"old_letter": "\u00e4", "new_letter": "ae"}, {"old_letter": "\u00f6", "new_letter": "oe"}, {"old_letter": "\u00fc", "new_letter": "ue"}, {"old_letter": " ", "new_letter": ""}]}
+
+            self.save_json(data)
+
+            return data
 
     def save_json(self, data):
         try:
