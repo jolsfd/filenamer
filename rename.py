@@ -44,7 +44,7 @@ class Rename:
 
             # replace letters from setting
             for replace_letter in self.settings['replace_letters']:
-                filename.replace(replace_letter['old_letter'], replace_letter['new_letter'])
+                filename = filename.replace(replace_letter['old_letter'], replace_letter['new_letter'])
             
             # return filename with spaceletter
             return self.settings['spaceletter'] + filename
