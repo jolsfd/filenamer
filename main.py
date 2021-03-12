@@ -57,7 +57,7 @@ class Menu:
             print('Path do not exist.')
 
     def help(self):
-        print('Please visit htttps://github.com/jolsfd/filenamer')
+        print('Please visit https://github.com/jolsfd/filenamer')
 
 def run():
     menu = Menu()
