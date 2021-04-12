@@ -34,7 +34,12 @@ def main():
 
     # exclude folder argument
     parser.add_argument(
-        "-e", "--exclude", metavar="FOLDER", nargs="*", help="Exclude folders"
+        "-e",
+        "--exclude",
+        metavar="FOLDER",
+        nargs="*",
+        help="Exclude folders",
+        default=[],
     )
 
     # rename all argument
