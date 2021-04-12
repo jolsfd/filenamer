@@ -41,11 +41,12 @@ def main():
     parser.add_argument("-a", "--all", action="store_false", help="Rename all files")
 
     # help argument
-    parser.add_argument(
-        "-h",
-        "--help",
-        help="Show this message and exit. For more help please visit https://github.com/jolsfd/filenamer",
-    )
+    # parser.add_argument(
+    #    "-h",
+    #    "--help",
+    #    action="help",
+    #    help="Show this message and exit. For more help please visit https://github.com/jolsfd/filenamer",
+    # )
 
     # version argument
     parser.add_argument(
