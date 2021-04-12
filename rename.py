@@ -4,8 +4,11 @@ from colorama import Fore, Back, Style
 
 
 class Rename:
-    def __init__(self, settings):
+    def __init__(self, settings, all):
         self.settings = settings
+        self.all = all
+        self.safe_string = self.settings["format"].partition("$")[0]
+        self.file_list = []
 
     def build_file_dict(self, source_name):
         file_dict = {}
@@ -85,27 +88,31 @@ class Rename:
         else:
             print(Fore.RED + f"{file_dict['tail']} was not found" + Fore.RESET)
 
-    def collect_files(self, path):
-        files = []
+    def collect_files(self, path_to_files, excluded_folders):
+        for root, dirnames, file_list in os.walk(path_to_files):
+            # Exclude folders
+            for dirname in dirnames:
+                if dirname in excluded_folders:
+                    dirnames.remove(dirname)
+                    print(Fore.RED + f"Exclude folder: {dirname}" + Fore.RESET)
 
-        for root, dirnames, filenames in os.walk(path):
-            for file in filenames:
-                # check safe string
-                if (
-                    file[: len(self.settings["safe_string"])]
-                    == self.settings["safe_string"]
-                ):
-                    continue
+            # Get files
+            for file in file_list:
+                # Check all rename
+                if not self.all:
+                    # Check safe string
+                    if file[: len(self.safe_string)] == self.safe_string:
+                        continue
 
                 # check file extension
                 file_ext = os.path.splitext(file)[1]
 
-                if file_ext in self.settings["file_ext"]:
-                    files.append(os.path.join(root, file))
+                if file_ext in self.settings["document_ext"]:
+                    self.file_list.append(os.path.join(root, file))
 
         del dirnames
 
-        return files
+        return len(self.file_list)
 
     def rename_file(self, source_name):
         # Build file dict
