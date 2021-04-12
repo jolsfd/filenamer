@@ -1,5 +1,5 @@
 import os
-import time
+import time, datetime
 from colorama import Fore, Back, Style
 
 
@@ -23,37 +23,33 @@ class Rename:
 
         return file_dict
 
-    def get_file_date(self, file):
-        # check date settings
-        if self.settings["date_string"]:
-            # get creation time in seconds from a file path
-            stat = os.stat(file)
+    def new_filename(self, source_name, filename):
+        # get creation time in seconds from a file path
+        stat = os.stat(source_name)
 
-            # Windows
-            try:
-                date_secs = stat.st_birthtime
+        # Windows
+        try:
+            date_secs = stat.st_birthtime
 
-            # Linux
-            except AttributeError:
-                date_secs = stat.st_mtime
+        # Linux
+        except AttributeError:
+            date_secs = stat.st_mtime
 
-            # Convert time in seconds into a time format
-            time_struct = time.gmtime(date_secs)
+        # Convert time in seconds into a time format
+        datetime_object = datetime.fromtimestamp(date_secs)
 
-            # year, month, day - time format
-            year = str(time_struct[0])
-            month = str(time_struct[1])
-            day = str(time_struct[2])
-            if len(month) < 2:
-                month = "0" + month
-            if len(day) < 2:
-                day = "0" + day
-            date = year + month + day
+        new_filename = (
+            self.settings["format"]
+            .replace("$Y", datetime_object.strftime("%Y"))
+            .replace("$M", datetime_object.strftime("%m"))
+            .replace("$D", datetime_object.strftime("%d"))
+            .replace("$h", datetime_object.strftime("%H"))
+            .replace("$m", datetime_object.strftime("%M"))
+            .replace("$s", datetime_object.strftime("%S"))
+            .replace("FILENAME", filename)
+        )
 
-            # return date with spaceletter
-            return self.settings["spaceletter"] + date
-        else:
-            return ""
+        return new_filename
 
     def get_filename(self, tail):
         if self.settings["old_filename"]:
