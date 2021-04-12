@@ -139,3 +139,6 @@ class Rename:
     def rename_files(self):
         for source_name in self.file_list:
             self.rename_file(source_name)
+
+    def clear(self):
+        self.file_list = []
