@@ -123,38 +123,6 @@ class Rename:
 
         return files
 
-    def rename_files(self, files):
-        for old_file in files:
-            # get safe string from settings
-            safe_string = self.settings["safe_string"]
-
-            # split file into dir and filename
-            head, old_tail = os.path.split(old_file)
-
-            # date from file
-            date = self.get_file_date(old_file)
-
-            # filename without a extension
-            filename = self.get_filename(old_tail)
-
-            # file extension from file tail
-            file_ext = os.path.splitext(old_tail)[1]
-
-            # build new file tail
-            new_tail = safe_string + date + filename + file_ext
-            new_file = head + "/" + new_tail
-
-            if os.path.isfile(new_file):
-                print(old_file + " is not renamed")
-                continue
-
-            if os.path.isfile(old_file):
-                # rename file
-                os.rename(old_file, new_file)
-
-            # visualization for user
-            print(old_tail + " -> " + new_tail)
-
     def rename_file(self, source_name):
         # Build file dict
         document_dict = self.build_file_dict(source_name)
