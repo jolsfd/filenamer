@@ -6,7 +6,7 @@ from colorama import Fore, Back, Style
 class Rename:
     def __init__(self, settings, all):
         self.settings = settings
-        self.rename = all
+        self.safe_rename = all
         self.safe_string = self.settings["format"].partition("$")[0]
         self.file_list = []
 
