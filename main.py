@@ -1,90 +1,98 @@
-from settings import SettingsfromJSON
-from rename import Rename
+#!/usr/bin/env python
+
+import argparse
 import os
+from src.settings import Settings
+from src.rename import Rename
+from colorama import Fore, Back, Style
 
-class Menu:
-    def __init__(self):
-        self.settings_object = SettingsfromJSON()
-        self.settings = self.settings_object.load_json()
-        self.rename = Rename(self.settings)
-        self.error = self.settings_object.error_checking(self.settings)
 
-    def rename_files(self):
-        path_input = ''
+def main():
+    # Path to settings
+    path_to_settings = (
+        os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        + "/settings/settings.json"
+    )
 
-        print('Please input a path.')
-        path_input = input('>>>' + self.settings['working_path'])
-        path = self.settings['working_path'] + path_input
+    # Verion tag
+    __version__ = 1.0
 
-        if '\\' in path:
-            path = path.replace('\\','/')
+    # Parser
+    parser = argparse.ArgumentParser()
 
-        if os.path.exists(path):
-            files = self.rename.collect_files(path)
-            
-            print('Rename ' + str(len(files)) + ' files.')
+    # folder argument
+    parser.add_argument("folder", metavar="FOLDER", nargs="*", help="Dirs")
 
-            user_input = input('Yes/No [Y/n]')
+    # path argument
+    parser.add_argument(
+        "-p",
+        "--path",
+        metavar="PATH",
+        default=os.getcwd(),
+        help="Path where FileNamer search",
+    )
 
-            if user_input == 'Y':
-                self.rename.rename_files(files)
+    # exclude folder argument
+    parser.add_argument(
+        "-e", "--exclude", metavar="FOLDER", nargs="*", help="Exclude folders"
+    )
+
+    # rename all argument
+    parser.add_argument("-a", "--all", action="store_true", help="Rename all files")
+
+    # help argument
+    parser.add_argument(
+        "-h",
+        "--help",
+        help="Show this message and exit. For more help please visit https://github.com/jolsfd/filenamer",
+    )
+
+    # version argument
+    parser.add_argument(
+        "--version", action="version", version=f"%(prog)s {__version__}"
+    )
+
+    args = parser.parse_args()
+
+    # Check if folder argument is given
+    if not args.folder:
+        parser.error("FOLDER argument is not given")
+
+    else:
+        # Check path
+        if not os.path.isdir(args.path):
+            parser.error("Path does not exist!")
+
+        print(f"Path: " + Fore.RED + "{args.path}" + Fore.RESET)
+        print(f"Folders: " + Fore.RED + "{args.folder}" + Fore.RESET)
+        # print(f"Exlcuded Folders: " + Fore.RED + "{args.exclude}" + Fore.RESET)
+        print(f"Safe Rename: " + Fore.RED + "{args.all}" + Fore.RESET)
+
+        # Generate Setting Object
+        settings_object = Settings(path_to_settings)
+        settings = settings_object.load_settings()
+
+        # Check errors in settings
+        if settings_object.check_settings(settings):
+            parser.error("Error in settings please check URL")
+
+        # Generate Rename Object
+        rename_object = Rename(settings, args.all)
+
+        # Collect files
+        number_of_files = rename_object.collect_files(args.path, args.exclude)
+
+        # Confirm to rename
+        ask_for_rename = input(
+            f"Do you confirm to rename {number_of_files} files ? [y/n]"
+        )
+
+        if ask_for_rename == "y":
+            rename_object.rename_files()
 
         else:
-            print('Path do not exist.')
-
-    def change_working_path(self):
-        working_path_input = ''
-
-        while len(working_path_input) < 1:
-            print('Please input a path.')
-            working_path_input = input('>>> ')
-
-        if '\\' in working_path_input:
-            working_path_input = working_path_input.replace('\\','/')
-
-        if working_path_input[-1] != '/':
-            working_path_input = working_path_input + '/'
-        
-        if os.path.exists(working_path_input):
-            self.settings['working_path'] = working_path_input
-            self.settings_object.save_json(self.settings)
-
-            self.settings = self.settings_object.load_json()
-
-            print()
-
-        else:
-            print('Path do not exist.')
-
-    def help(self):
-        print('Please visit https://github.com/jolsfd/filenamer')
-
-def run():
-    menu = Menu()
-
-    while not menu.error:
-        print(13*' ','Menu',13*' ')
-        print(30*'-')
-        print('  1. Rename files')
-        print('  2. Working path')
-        print('  3. Help')
-        print('  4. Quit')
-        print(30*'-')
-        print()
-
-        menu_input = input('>>> ')
-
-        if menu_input == '1':
-            menu.rename_files()
-
-        elif menu_input == '2':
-            menu.change_working_path()
-
-        elif menu_input == '3':
-            menu.help()
-
-        elif menu_input == '4':
             quit()
 
-if __name__ == '__main__':
-    run()
+
+if __name__ == "__main__":
+    main()
