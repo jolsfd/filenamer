@@ -135,3 +135,7 @@ class Rename:
 
         # Rename file
         self.rename(document_dict)
+
+    def rename_files(self):
+        for source_name in self.file_list:
+            self.rename_file(source_name)
