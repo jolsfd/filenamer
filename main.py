@@ -65,10 +65,10 @@ def main():
             parser.error("Path does not exist!")
 
         # Print Information for user
-        print(f"Path: " + Fore.RED + "{args.path}" + Fore.RESET)
-        print(f"Folders: " + Fore.RED + "{args.folder}" + Fore.RESET)
-        # print(f"Exlcuded Folders: " + Fore.RED + "{args.exclude}" + Fore.RESET)
-        print(f"Safe Rename: " + Fore.RED + "{args.all}" + Fore.RESET)
+        print(f"Path: " + Fore.RED + f"{args.path}" + Fore.RESET)
+        print(f"Folders: " + Fore.RED + f"{args.folder}" + Fore.RESET)
+        # print(f"Exlcuded Folders: " + Fore.RED + f"{args.exclude}" + Fore.RESET)
+        print(f"Safe Rename: " + Fore.RED + f"{args.all}" + Fore.RESET)
 
         # Generate Setting Object
         settings_object = Settings(path_to_settings)
