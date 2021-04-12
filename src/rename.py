@@ -1,6 +1,7 @@
 import os
-import time, datetime
+import time
 from colorama import Fore, Back, Style
+from datetime import datetime
 
 
 class Rename:
