@@ -22,9 +22,6 @@ def main():
         prog="FileNamer", description="Renames files in a directory."
     )
 
-    # folder argument
-    # parser.add_argument("folder", metavar="FOLDER", nargs="*", help="Dirs")
-
     # path argument
     parser.add_argument(
         "-p",
@@ -47,14 +44,6 @@ def main():
     # rename all argument
     parser.add_argument("-a", "--all", action="store_false", help="Rename all files")
 
-    # help argument
-    # parser.add_argument(
-    #    "-h",
-    #    "--help",
-    #    action="help",
-    #    help="Show this message and exit. For more help please visit https://github.com/jolsfd/filenamer",
-    # )
-
     # version argument
     parser.add_argument(
         "--version", action="version", version=f"%(prog)s {__version__}"
@@ -62,11 +51,8 @@ def main():
 
     args = parser.parse_args()
 
-    # Check if folder argument is given
-    if not True:  # args.folder:
-        parser.error("FOLDER argument is not given")
-
-    else:
+    # Check if path argument is given
+    if args.path:
         # Check path
         if not os.path.isdir(args.path):
             parser.error("Path does not exist!")
