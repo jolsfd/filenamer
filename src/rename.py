@@ -95,7 +95,7 @@ class Rename:
             for dirname in dirnames:
                 if dirname in excluded_folders:
                     dirnames.remove(dirname)
-                    print(Fore.RED + f"Exclude folder: {dirname}" + Fore.RESET)
+                    print(Fore.GREEN + f"Exclude folder: {dirname}" + Fore.RESET)
 
             # Get files
             for file in file_list:
