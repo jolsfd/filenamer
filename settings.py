@@ -21,51 +21,32 @@ class Settings:
         }
         # self.json_path = os.path.join(os.path.dirname(os.path.abspath(__file__))) + '/filenamer_settings/filenamer_settings.json'
 
-    def load_json(self):
+    def save_settings(self, new_settings):
         try:
-            json_settings = open(self.json_path, "r")
+            json_file = open(self.path_to_settings, "w")
 
-            data = json.load(json_settings)
+            json.dump(new_settings, json_file)
 
-            json_settings.close()
+            json_file.close()
 
-            return data
+            print(Fore.GREEN + f"Saved Changes into json file.\n" + Fore.RESET)
 
-        except FileNotFoundError:
-            json_settings = open(self.json_path, "w")
-            json_settings.close()
+        except:
+            print(Fore.RED + f"Settings could not be saved\n" + Fore.RESET)
 
-            data = {
-                "working_path": "",
-                "safe_string": "DOC",
-                "file_ext": [".pdf", ".odt", ".odg", ".odp", ".jpg"],
-                "date_string": True,
-                "old_filename": True,
-                "spaceletter": "_",
-                "replace_letters": [
-                    {"old_letter": "\u00e4", "new_letter": "ae"},
-                    {"old_letter": "\u00f6", "new_letter": "oe"},
-                    {"old_letter": "\u00fc", "new_letter": "ue"},
-                    {"old_letter": " ", "new_letter": ""},
-                ],
-            }
-
-            self.save_json(data)
-
-            return data
-
-    def save_json(self, data):
+    def load_settings(self):
         try:
-            json_settings = open(self.json_path, "w")
+            json_file = open(self.path_to_settings, "r")
 
-            json.dump(data, json_settings)
+            settings = json.load(json_file)
 
-            json_settings.close()
+            json_file.close()
 
-            print("Saved Changes into json file.")
-
+            return settings
         except FileNotFoundError:
-            print("No json file found.")
+            self.save_settings(self.settings_template)
+
+            return self.settings_template
 
     def error_checking(self, settings):
         error = False
