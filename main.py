@@ -18,7 +18,9 @@ def main():
     __version__ = 1.0
 
     # Parser
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        prog="FileNamer", description="Renames files in a directory."
+    )
 
     # folder argument
     # parser.add_argument("folder", metavar="FOLDER", nargs="*", help="Dirs")
