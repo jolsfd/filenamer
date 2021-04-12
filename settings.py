@@ -6,10 +6,6 @@ class Settings:
     def __init__(self, path_to_settings):
         self.path_to_settings = path_to_settings
         self.settings_template = {
-            # "safe_string": "IMG_",
-            # "raw_rename": True,
-            # "safe_rename": True,
-            # "raw_ext": [".raw", ".cr2", ".dng"],
             "document_ext": [".pdf", ".PDF", ".odt", ".doc"],
             "format": "DOC_$Y$M$D_FILENAME",
             "replace_letters": [
@@ -19,7 +15,6 @@ class Settings:
                 {"old_letter": " ", "new_letter": ""},
             ],
         }
-        # self.json_path = os.path.join(os.path.dirname(os.path.abspath(__file__))) + '/filenamer_settings/filenamer_settings.json'
 
     def save_settings(self, new_settings):
         try:
@@ -48,52 +43,44 @@ class Settings:
 
             return self.settings_template
 
-    def error_checking(self, settings):
+    def check_settings(self, settings):
         error = False
+
+        # Check json file
         try:
-            if type(settings["working_path"]) != type(str()):
-                print("Type error in working_path")
+            # format
+            if type(settings["format"]) != type(str()):
                 error = True
 
-            if type(settings["safe_string"]) != type(str()):
-                print("Type error in safe_string")
+            # document ext
+            if type(settings["document_ext"]) != type(list()):
                 error = True
 
-            if type(settings["file_ext"]) != type(list()):
-                print("Type error in file_ext")
-                error = True
+            else:
+                for imgage_ext in settings["document_ext"]:
+                    if type(imgage_ext) != type(str()):
+                        error = True
 
-            if type(settings["file_ext"][0]) != type(str()):
-                print("Type error in file_ext")
-                error = True
-
-            if type(settings["date_string"]) != type(bool()):
-                print("Type error in date")
-                error = True
-
-            if type(settings["old_filename"]) != type(bool()):
-                print("Type error in old_filename")
-                error = True
-
-            if type(settings["spaceletter"]) != type(str()):
-                print("Type error in spaceletter")
-                error = True
-
+            # replace letters
             if type(settings["replace_letters"]) != type(list()):
-                print("Type error in replace_letter")
                 error = True
 
-            if type(settings["replace_letters"][0]) != type(dict()):
-                print("Type error in replace_letters dictonary")
-                error = True
+            else:
+                for replace_letter in settings["replace_letters"]:
+                    if type(replace_letter) != type(dict()):
+                        error = True
 
         except AttributeError:
-            print("attributes not found check https://")
+            error = True
+
+        except KeyError:
             error = True
 
         if error:
             print(
-                "Please go to https://github.com/jolsfd/filenamer and check the filenamer_settings.json file."
+                Fore.RED
+                + f"Error in settings. Please visit https://github.com/jolsfd/filenamer \n"
+                + Fore.RESET
             )
 
         return error
