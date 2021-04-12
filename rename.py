@@ -1,5 +1,6 @@
 import os
 import time
+from colorama import Fore, Back, Style
 
 
 class Rename:
@@ -69,6 +70,30 @@ class Rename:
             return self.settings["spaceletter"] + filename
         else:
             return ""
+
+    def rename(self, file_dict):
+        while os.path.isfile(file_dict["target_name"]):
+            file_dict["number_of_copy"] = file_dict["number_of_copy"] + 1
+            file_dict["new_tail"] = (
+                file_dict["new_filename"]
+                + "~"
+                + str(file_dict["number_of_copy"])
+                + file_dict["file_ext"]
+            )
+            file_dict["target_name"] = os.path.join(
+                file_dict["head"], file_dict["new_tail"]
+            )
+
+        if os.path.isfile(file_dict["source_name"]):
+            os.rename(file_dict["source_name"], file_dict["target_name"])
+            print(
+                Fore.GREEN
+                + f"{file_dict['tail']} -> {file_dict['new_tail']}"
+                + Fore.RESET
+            )
+
+        else:
+            print(Fore.RED + f"{file_dict['tail']} was not found" + Fore.RESET)
 
     def collect_files(self, path):
         files = []
