@@ -16,6 +16,7 @@ class Rename:
         file_dict["filename"], file_dict["file_ext"] = os.path.splitext(
             file_dict["tail"]
         )
+        file_dict["modified_filename"] = self.modify_filename(file_dict["filename"])
         file_dict["new_filename"] = ""
         file_dict["new_tail"] = ""
         file_dict["target_name"] = ""
@@ -50,6 +51,15 @@ class Rename:
         )
 
         return new_filename
+
+    def modify_filename(self, filename):
+        # replace letters from setting
+        for replace_letter in self.settings["replace_letters"]:
+            filename = filename.replace(
+                replace_letter["old_letter"], replace_letter["new_letter"]
+            )
+
+        return filename
 
     def get_filename(self, tail):
         if self.settings["old_filename"]:
@@ -144,3 +154,25 @@ class Rename:
 
             # visualization for user
             print(old_tail + " -> " + new_tail)
+
+    def rename_file(self, source_name):
+        # Build file dict
+        document_dict = self.build_file_dict(source_name)
+
+        # Set new filename
+        document_dict["new_filename"] = self.new_filename(
+            document_dict["source_name"], document_dict["modified_filename"]
+        )
+
+        # Set new tail
+        document_dict["new_tail"] = (
+            document_dict["new_filename"] + document_dict["file_ext"]
+        )
+
+        # Set target name
+        document_dict["target_name"] = os.path.join(
+            document_dict["head"], document_dict["new_tail"]
+        )
+
+        # Rename file
+        self.rename(document_dict)
