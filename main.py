@@ -21,7 +21,7 @@ def main():
     parser = argparse.ArgumentParser()
 
     # folder argument
-    parser.add_argument("folder", metavar="FOLDER", nargs="*", help="Dirs")
+    # parser.add_argument("folder", metavar="FOLDER", nargs="*", help="Dirs")
 
     # path argument
     parser.add_argument(
@@ -61,7 +61,7 @@ def main():
     args = parser.parse_args()
 
     # Check if folder argument is given
-    if not args.folder:
+    if not True:  # args.folder:
         parser.error("FOLDER argument is not given")
 
     else:
@@ -71,8 +71,8 @@ def main():
 
         # Print Information for user
         print(f"Path: " + Fore.RED + f"{args.path}" + Fore.RESET)
-        print(f"Folders: " + Fore.RED + f"{args.folder}" + Fore.RESET)
-        # print(f"Exlcuded Folders: " + Fore.RED + f"{args.exclude}" + Fore.RESET)
+        # print(f"Folders: " + Fore.RED + f"{args.folder}" + Fore.RESET)
+        print(f"Exlcuded Folders: " + Fore.RED + f"{args.exclude}" + Fore.RESET)
         print(f"Safe Rename: " + Fore.RED + f"{args.all}" + Fore.RESET)
 
         # Generate Setting Object
