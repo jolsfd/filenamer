@@ -61,22 +61,6 @@ class Rename:
 
         return filename
 
-    def get_filename(self, tail):
-        if self.settings["old_filename"]:
-            # get filename
-            filename = os.path.splitext(tail)[0]
-
-            # replace letters from setting
-            for replace_letter in self.settings["replace_letters"]:
-                filename = filename.replace(
-                    replace_letter["old_letter"], replace_letter["new_letter"]
-                )
-
-            # return filename with spaceletter
-            return self.settings["spaceletter"] + filename
-        else:
-            return ""
-
     def rename(self, file_dict):
         while os.path.isfile(file_dict["target_name"]):
             file_dict["number_of_copy"] = file_dict["number_of_copy"] + 1
