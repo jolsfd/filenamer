@@ -63,6 +63,7 @@ def main():
         if not os.path.isdir(args.path):
             parser.error("Path does not exist!")
 
+        # Print Information for user
         print(f"Path: " + Fore.RED + "{args.path}" + Fore.RESET)
         print(f"Folders: " + Fore.RED + "{args.folder}" + Fore.RESET)
         # print(f"Exlcuded Folders: " + Fore.RED + "{args.exclude}" + Fore.RESET)
