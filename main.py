@@ -38,7 +38,7 @@ def main():
     )
 
     # rename all argument
-    parser.add_argument("-a", "--all", action="store_true", help="Rename all files")
+    parser.add_argument("-a", "--all", action="store_false", help="Rename all files")
 
     # help argument
     parser.add_argument(
