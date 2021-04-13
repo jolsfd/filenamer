@@ -10,7 +10,7 @@ from colorama import Fore, Back, Style
 def main():
     # Path to settings
     path_to_settings = (
-        os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         + "/settings/settings.json"
     )
 
