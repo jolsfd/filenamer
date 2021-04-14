@@ -19,7 +19,8 @@ def main():
 
     # Parser
     parser = argparse.ArgumentParser(
-        prog="FileNamer", description="Renames files in a directory."
+        prog="FileNamer",
+        description="FileNamer rename files in a directory into a format",
     )
 
     # path argument
@@ -28,7 +29,7 @@ def main():
         "--path",
         metavar="PATH",
         default=os.getcwd(),
-        help="Path where FileNamer search",
+        help="path where FileNamer rename files. Default: working directory",
     )
 
     # exclude folder argument
@@ -37,12 +38,12 @@ def main():
         "--exclude",
         metavar="FOLDER",
         nargs="*",
-        help="Exclude folders",
+        help="ignore folders for renaming",
         default=[],
     )
 
     # rename all argument
-    parser.add_argument("-a", "--all", action="store_false", help="Rename all files")
+    parser.add_argument("-a", "--all", action="store_false", help="disable Safe Rename")
 
     # version argument
     parser.add_argument(
