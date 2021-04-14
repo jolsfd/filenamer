@@ -6,7 +6,17 @@ class Settings:
     def __init__(self, path_to_settings):
         self.path_to_settings = path_to_settings
         self.settings_template = {
-            "document_ext": [".pdf", ".PDF", ".odt", ".doc"],
+            "document_ext": [
+                ".pdf",
+                ".PDF",
+                ".odt",
+                ".odg",
+                ".ods",
+                ".odp",
+                ".odf",
+                ".doc",
+                ".docx",
+            ],
             "format": "DOC_$Y$M$D_FILENAME",
             "replace_letters": [
                 {"old_letter": "\u00e4", "new_letter": "ae"},
